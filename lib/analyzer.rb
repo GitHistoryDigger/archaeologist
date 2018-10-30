@@ -21,7 +21,7 @@ class GitStatLangAnalyser
           status = result.fetch(l, {'add': 0, 'del': 0})
           status[:add] += patch.additions
           status[:del] += patch.deletions
-          result.store(l, status)
+          result[l] = status
         end
       }
     }
