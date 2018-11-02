@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby -wKU
 
-require 'json/ext'
+require "msgpack"
+require "time"
+require "json/ext"
 require_relative "../lib/repowalker.rb"
 require_relative "../lib/analyzer.rb"
 require 'parallel'
@@ -16,9 +18,9 @@ def main(repo_path, email)
     lang = el[1]
     a = GitStatLangAnalyser.new(c, lang)
     ar = a.analyze()
-    { 'oid': c.oid, 'langages': ar, 'time': c.time }.to_json
+    { 'oid': c.oid, 'langages': ar, 'time': c.time.xmlschema }.to_msgpack
   }
-  results.map! {|js| JSON.parse js}
+  results.map! {|d| MessagePack.unpack d}
   puts(JSON.pretty_generate(results))
 end
 
