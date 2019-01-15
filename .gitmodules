@@ -1,0 +1,3 @@
+[submodule "spec/repos/singlebranch"]
+	path = spec/repos/singlebranch
+	url = git@github.com:GitHistoryDigger/singlebranch.git

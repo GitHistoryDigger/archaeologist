@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
 require 'json/ext'
-require 'parallel'
 
 require_relative "../lib/analyzer"
 require_relative "../lib/repowalker"
@@ -18,23 +17,20 @@ describe "Single Branch" do
       }
     end
     it "Should be 6 add and 6 del with python code" do
-      results = Parallel.map(@commits){ |el|
+      results = JSON.parse(@commits.map { |el|
         c = el[0]
         lang = el[1]
         a = GitStatLangAnalyser.new(c, lang)
         ar = a.analyze()
-        { 'oid': c.oid, 'languages': ar, 'time': c.time }.to_json
-      }
-      results.map! {|js| JSON.parse js}
+        { 'oid': c.oid, 'languages': ar, 'time': c.time }
+      }.to_json())
       expect(results).to eql JSON.parse([
         {
           "oid": 'cddcaa40e9e160c7aec09bc79d2c2d25c3e6bb88',
-          "languages": {
-            "Python": { "add": 6, "del": 6 }
-          },
+          "languages": { "Python": { "add": 6, "del": 6 } },
           "time": "2019-01-15 10:34:59 +0900"
         }
-      ].to_json)
+      ].to_json())
     end
   end
   describe "Without Email" do
@@ -48,14 +44,13 @@ describe "Single Branch" do
       }
     end
     it "Should analyze all commits" do
-      results = Parallel.map(@commits){ |el|
+      results = JSON.parse(@commits.map { |el|
         c = el[0]
         lang = el[1]
         a = GitStatLangAnalyser.new(c, lang)
         ar = a.analyze()
-        { 'oid': c.oid, 'languages': ar, 'time': c.time }.to_json
-      }
-      results.map! {|js| JSON.parse js}
+        { 'oid': c.oid, 'languages': ar, 'time': c.time }
+      }.to_json())
       expect(results).to match_array JSON.parse([
         {
           "oid": "0c7377bff42588dbb596b65bfba91977f41eb5c9",
