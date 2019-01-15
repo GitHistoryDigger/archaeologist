@@ -14,7 +14,7 @@ class RepoWalker
     walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_REVERSE)
     walker.push(@repo.head.target_id)
     walker.each { |c|
-      if c.author[:email] == @email
+      if c.author[:email] == @email || !@email&.size
         yield(c, Linguist::Repository.new(@repo, c.oid))
       end
     }
