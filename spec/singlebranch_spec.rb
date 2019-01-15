@@ -71,6 +71,11 @@ describe "Single Branch" do
           "oid": 'cddcaa40e9e160c7aec09bc79d2c2d25c3e6bb88',
           "languages": { "Python": { "add": 6, "del": 6 } },
           "time": "2019-01-15 10:34:59 +0900"
+        },
+        {
+          "oid"=>"9eb9d80f358538df8c43eb986b3c7b7047be8756",
+          "languages": {},
+          "time": "2019-01-15 19:25:35 +0900"
         }
       ].to_json)
     end
