@@ -16,7 +16,7 @@ def main(repo_path, email)
     lang = el[1]
     a = GitStatLangAnalyser.new(c, lang)
     ar = a.analyze()
-    { 'oid': c.oid, 'langages': ar, 'time': c.time }.to_json
+    { 'oid': c.oid, 'languages': ar, 'time': c.time }.to_json
   }
   results.map! {|js| JSON.parse js}
   puts(JSON.pretty_generate(results))
