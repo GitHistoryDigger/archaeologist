@@ -10,6 +10,6 @@ gem "github-linguist", "~> 7.0"
 
 gem "parallel", "~> 1.12"
 
-gem "rspec", "~> 3.8"
+gem "rspec", "~> 3.8", require: false
 
-gem "simplecov", "~> 0.16.1"
+gem "simplecov", "~> 0.16.1", require: false
