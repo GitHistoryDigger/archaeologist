@@ -1,3 +1,0 @@
-[submodule "tests/repos/singlebranch"]
-	path = tests/repos/singlebranch
-	url = git@github.com:GitHistoryDigger/singlebranch.git
