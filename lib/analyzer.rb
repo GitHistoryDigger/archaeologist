@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
+
 class GitStatLangAnalyser
   def initialize(cobj, lang)
     @c = cobj
