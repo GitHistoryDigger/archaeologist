@@ -64,34 +64,36 @@ class Linguist::Repository
   end
 end
 
-class RepoWalker
-  def initialize(repo, email)
-    @repo = Rugged::Repository.new(repo)
-    @email = email
-  end
+module Archaeologist
+  class RepoWalker
+    def initialize(repo, email)
+      @repo = Rugged::Repository.new(repo)
+      @email = email
+    end
 
-  def each()
-    walker = Rugged::Walker.new(@repo)
-    already_walked = []
-    @repo.branches.each { |br|
-      cur_l = nil
-      cur_oid = nil
-      walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_REVERSE)
-      walker.push(br.target_id)
-      walker.each { |c|
-        cur_l = c.parents.empty? ?
-          Linguist::Repository.new(@repo, c.oid) :
-          Linguist::Repository.incremental(
-            @repo, c.oid, cur_oid, cur_l.cache
-          )
-        cur_oid = c.oid
-        if (c.author[:email] == @email || !@email&.size) &&
-            !already_walked.include?(c.oid)
-            already_walked << c.oid
-          yield(c, cur_l)
-        end
+    def each()
+      walker = Rugged::Walker.new(@repo)
+      already_walked = []
+      @repo.branches.each { |br|
+        cur_l = nil
+        cur_oid = nil
+        walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_REVERSE)
+        walker.push(br.target_id)
+        walker.each { |c|
+          cur_l = c.parents.empty? ?
+            Linguist::Repository.new(@repo, c.oid) :
+            Linguist::Repository.incremental(
+              @repo, c.oid, cur_oid, cur_l.cache
+            )
+          cur_oid = c.oid
+          if (c.author[:email] == @email || !@email&.size) &&
+              !already_walked.include?(c.oid)
+              already_walked << c.oid
+            yield(c, cur_l)
+          end
+        }
       }
-    }
-    walker.reset()
+      walker.reset()
+    end
   end
 end

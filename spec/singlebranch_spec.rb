@@ -2,13 +2,12 @@
 
 require 'json/ext'
 
-require_relative "../lib/analyzer"
-require_relative "../lib/repowalker"
+require_relative "../lib/archaeologist"
 
 describe "Single Branch" do
   describe "With Email" do
     before :example do
-      walker = RepoWalker.new(File.join(
+      walker = Archaeologist::RepoWalker.new(File.join(
         File.dirname(__FILE__), "repos", "singlebranch"
       ), "testing@githistorydigger.com")
       @commits = []
@@ -20,7 +19,7 @@ describe "Single Branch" do
       results = JSON.parse(@commits.map { |el|
         c = el[0]
         lang = el[1]
-        a = GitStatLangAnalyser.new(c, lang)
+        a = Archaeologist::GitStatLangAnalyser.new(c, lang)
         ar = a.analyze()
         { 'oid': c.oid, 'languages': ar, 'time': c.time }
       }.to_json())
@@ -35,7 +34,7 @@ describe "Single Branch" do
   end
   describe "Without Email" do
     before :example do
-      walker = RepoWalker.new(
+      walker = Archaeologist::RepoWalker.new(
         File.join(File.dirname(__FILE__), "repos", "singlebranch"), nil
       )
       @commits = []
@@ -47,7 +46,7 @@ describe "Single Branch" do
       results = JSON.parse(@commits.map { |el|
         c = el[0]
         lang = el[1]
-        a = GitStatLangAnalyser.new(c, lang)
+        a = Archaeologist::GitStatLangAnalyser.new(c, lang)
         ar = a.analyze()
         { 'oid': c.oid, 'languages': ar, 'time': c.time }
       }.to_json())

@@ -6,7 +6,7 @@ require_relative "../lib/analyzer.rb"
 require 'parallel'
 
 def main(repo_path, email)
-  walker = RepoWalker.new(repo_path, email)
+  walker = Archaeologist::RepoWalker.new(repo_path, email)
   commits = []
   walker.each { |c, lang|
     commits << [c, lang]
@@ -14,7 +14,7 @@ def main(repo_path, email)
   results = Parallel.map(commits){ |el|
     c = el[0]
     lang = el[1]
-    a = GitStatLangAnalyser.new(c, lang)
+    a = Archaeologist::GitStatLangAnalyser.new(c, lang)
     ar = a.analyze()
     { 'oid': c.oid, 'languages': ar, 'time': c.time }.to_json
   }
