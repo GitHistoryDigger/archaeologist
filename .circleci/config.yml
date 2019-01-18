@@ -56,7 +56,7 @@ jobs:
           command: "gem build archaeologist.gemspec"
       - run:
           name: "Deploy"
-          command: "gem push archaeologist-${CIRCLE_TAG}.gem -k rubygems_api_key"
+          command: "gem push archaeologist-${CIRCLE_TAG}.gem"
 
 release_filter: &release_filter
   tags:
