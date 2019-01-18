@@ -50,6 +50,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ../
+      - run: ~/.circleci/setup.sh
       - run:
           name: "Generate the package"
           command: "gem build archaeologist.gemspec"
