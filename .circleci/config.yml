@@ -52,8 +52,8 @@ jobs:
           at: ../
       - run: .circleci/setup_gem.sh
       - run:
-        name: "test"
-        command: cat ~/.gem/credentials
+          name: "test"
+          command: cat ~/.gem/credentials
       - run:
           name: "Generate the package"
           command: "gem build archaeologist.gemspec"
