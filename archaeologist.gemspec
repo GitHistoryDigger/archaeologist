@@ -1,6 +1,6 @@
 Gem::Specification.new { |s|
   s.name = 'archaeologist'
-  s.version = '0.0.1'
+  s.version = ENV['CIRCLE_TAG'] || '0.0.1'
   s.license = 'MIT'
   s.date = `date --iso`
   s.summary = 'Language detector for git'
