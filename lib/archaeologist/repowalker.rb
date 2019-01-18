@@ -33,11 +33,7 @@ class Linguist::Repository
       next if mode_format == 0120000 || mode_format == 040000 || mode_format == 0160000
 
       blob = Linguist::LazyBlob.new(repository, file[:oid], file[:path], mode.to_s(8))
-
-      if blob.include_in_language_stats?
-        file_map[file[:path]] = [blob.language.group.name, blob.size]
-      end
-
+      file_map[file[:path]] = [blob.language.group.name, blob.size] if blob.include_in_language_stats?
       blob.cleanup!
     }
 
