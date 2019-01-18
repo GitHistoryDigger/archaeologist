@@ -50,7 +50,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ../
-      - run: .circleci/setup_gem.sh
+      - run:
+          name: "Register credentials"
+          command: bash -c ".circleci/setup_gem.sh"
       - run:
           name: "test"
           command: cat ~/.gem/credentials
