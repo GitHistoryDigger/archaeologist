@@ -21,44 +21,25 @@ class Linguist::Repository
       file_map = cache ? cache.dup : {}
     end
 
-    diff.each_delta do |delta|
-      old = delta.old_file[:path]
-      new = delta.new_file[:path]
-
-      file_map.delete(old)
+    diff.each_delta { |delta|
+      file_map.delete(delta.old_file[:path])
       next if delta.binary
+      next unless [:added, :modified, :delete].include? delta.status
 
-      if [:added, :modified].include? delta.status
-        # Skip submodules and symlinks
-        mode = delta.new_file[:mode]
-        mode_format = (mode & 0170000)
-        next if mode_format == 0120000 || mode_format == 040000 || mode_format == 0160000
+      # Skip submodules and symlinks
+      file = [:added, :modified].include?(delta.status) ? delta.new_file : delta.old_file
+      mode = file[:mode]
+      mode_format = (mode & 0170000)
+      next if mode_format == 0120000 || mode_format == 040000 || mode_format == 0160000
 
-        blob = Linguist::LazyBlob.new(repository, delta.new_file[:oid], new, mode.to_s(8))
+      blob = Linguist::LazyBlob.new(repository, file[:oid], file[:path], mode.to_s(8))
 
-        if blob.include_in_language_stats?
-          file_map[new] = [blob.language.group.name, blob.size]
-        end
-
-        blob.cleanup!
+      if blob.include_in_language_stats?
+        file_map[file[:path]] = [blob.language.group.name, blob.size]
       end
-      # NOTE: These lines are newly added. When the behavor of this function
-      #   is changed, make sure below lines are included:
-      if delta.status == :deleted
-        mode = delta.old_file[:mode]
-        mode_format = (mode & 0170000)
-        next if mode_format == 0120000 || mode_format == 040000 || mode_format == 0160000
 
-        blob = Linguist::LazyBlob.new(repository, delta.old_file[:oid], old, mode.to_s(8))
-
-        if blob.include_in_language_stats?
-          file_map[old] = [blob.language.group.name, blob.size]
-        end
-
-        blob.cleanup!
-      end
-      # NOTE: the end of the new behavior.
-    end
+      blob.cleanup!
+    }
 
     file_map
   end
