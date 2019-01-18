@@ -6,6 +6,11 @@ jobs:
     working_directory: ~/ci
     steps:
       - checkout
+      - run:
+          name: "Checkout submodules"
+          command: |
+            git submodule sync &&
+            git submodule update --init
       - restore_cache:
           keys:
             - ci-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
