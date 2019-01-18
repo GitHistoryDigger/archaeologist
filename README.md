@@ -17,7 +17,7 @@ to [linguist] provided by [github].
 [github]: https://github.com/github
 
 ## Installation
-`bundle add archeologist`
+`bundle add archaeologist`
 
 ## How to use
 First, this lib has 2 scripts:
