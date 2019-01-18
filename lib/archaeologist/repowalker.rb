@@ -24,7 +24,7 @@ class Linguist::Repository
     diff.each_delta { |delta|
       file_map.delete(delta.old_file[:path])
       next if delta.binary
-      next unless [:added, :modified, :delete].include? delta.status
+      next unless [:added, :modified, :deleted].include? delta.status
 
       # Skip submodules and symlinks
       file = [:added, :modified].include?(delta.status) ? delta.new_file : delta.old_file
