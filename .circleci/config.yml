@@ -17,7 +17,7 @@ jobs:
       - run:
           name: 'Install required packages for linguist'
           command: |
-            apt-get install -y --no-install-recommends libgit2 icu4c cmake pkg-config
+            apt-get install -y --no-install-recommends libgit2-dev libicu-dev cmake pkg-config
       - run: 'gem install bundler'
       - run:
           name: "Install Dependencies"
