@@ -52,7 +52,8 @@ jobs:
           at: ../
       - run:
           name: "Register credentials"
-          command: bash -c ".circleci/setup_gem.sh"
+          command: |
+            echo -e "---\r\n:rubygems_api_key: ${GEM_KEY}" > ~/.gem/credentials
       - run:
           name: "test"
           command: cat ~/.gem/credentials
