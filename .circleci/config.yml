@@ -53,6 +53,7 @@ jobs:
       - run:
           name: "Register credentials"
           command: |
+            mkdir -p ~/.gem
             echo -e "---\r\n:rubygems_api_key: ${GEM_KEY}" > ~/.gem/credentials
       - run:
           name: "test"
