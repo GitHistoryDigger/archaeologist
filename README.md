@@ -1,5 +1,16 @@
 # Archeologist
 
+[![CircleCI]][CircleCI Link]
+[![Maintainability]][Maintainability Link]
+[![Test Coverage]][Test Coverage Link]
+
+[CircleCI]: https://circleci.com/gh/GitHistoryDigger/archaeologist.svg?style=svg
+[CircleCI Link]: https://circleci.com/gh/GitHistoryDigger/archaeologist
+[Maintainability]: https://api.codeclimate.com/v1/badges/68f38bbfff91c9b9e285/maintainability
+[Maintainability Link]: https://codeclimate.com/github/GitHistoryDigger/archaeologist/maintainability
+[Test Coverage]: https://api.codeclimate.com/v1/badges/68f38bbfff91c9b9e285/test_coverage
+[Test Coverage Link]: https://codeclimate.com/github/GitHistoryDigger/archaeologist/test_coverage
+
 ## What this?
 This repo measures coding language in the specified git repository per a commit.
 
