@@ -23,14 +23,13 @@ class Linguist::Repository
 
     diff.each_delta { |delta|
       file_map.delete(delta.old_file[:path])
-      next if delta.binary
-      next unless [:added, :modified, :deleted].include? delta.status
+      next if delta.binary || ![:added, :modified, :deleted].include?(delta.status)
 
       # Skip submodules and symlinks
       file = [:added, :modified].include?(delta.status) ? delta.new_file : delta.old_file
       mode = file[:mode]
       mode_format = (mode & 0170000)
-      next if mode_format == 0120000 || mode_format == 040000 || mode_format == 0160000
+      next if [0120000, 040000, 0160000].include?(mode_format)
 
       blob = Linguist::LazyBlob.new(repository, file[:oid], file[:path], mode.to_s(8))
       file_map[file[:path]] = [blob.language.group.name, blob.size] if blob.include_in_language_stats?
