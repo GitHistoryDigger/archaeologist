@@ -36,7 +36,7 @@ jobs:
       - run:
           name: "Test & Upload the coverage"
           command: |
-            ../cc-test-reporter before-build --exit-code $EXIT_CODE
+            ../cc-test-reporter before-build
             bundle exec rspec
             export EXIT_CODE=${?};
             ../cc-test-reporter after-build --exit-code $EXIT_CODE
